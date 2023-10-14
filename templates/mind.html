@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block content %}
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container px-6 mx-auto grid">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      MindAI
+    </h2>
+    <!-- CTA -->
+    <a
+      class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
+      href="https://github.com/estevanmaito/windmill-dashboard"
+    >
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+          ></path>
+        </svg>
+        <span>Star this project on GitHub</span>
+      </div>
+      <span>View more &RightArrow;</span>
+    </a>
+
+    {% if history %}
+    <div class="history my-6">
+      {% for story in history %}
+      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+        <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+          {{story.user.username}}
+        </h4>
+        <p class="text-gray-600 dark:text-gray-400">{{story.message}}</p>
+      </div>
+      <!-- Response -->
+      <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+        <h4 class="mb-4 font-semibold">Mind</h4>
+        <p>{{story.response}}</p>
+      </div>
+      {% endfor%}
+    </div>
+    {% else %}
+    <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+      <h4 class="mb-4 font-semibold">Mind</h4>
+      <p>Hi {{request.user.username}} 👋, Let's Talk</p>
+    </div>
+    {% endif %}
+
+    <!-- General elements -->
+    <form
+      action="{% url 'mind' %}"
+      method="post"
+      class="px-4 py-3 mt-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    >
+      {% csrf_token %}
+      <!-- <label class="block mt-4 text-sm">
+        <textarea
+          class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+          rows="3"
+          placeholder="Enter some long form content."
+        ></textarea>
+      </label> -->
+
+      <label class="block mt-4 text-sm">
+        <div class="relative text-gray-500 focus-within:text-purple-600">
+          <input
+            class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Say something "
+            name="message"
+          />
+          <button
+            class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          >
+            Send
+          </button>
+        </div>
+      </label>
+    </form>
+
+    <!-- Inputs with buttons -->
+    <!-- <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+      Buttons
+    </h4>
+    <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+      <label class="block text-sm">
+        <span class="text-gray-700 dark:text-gray-400"> Button left </span>
+        <div class="relative">
+          <input
+            class="block w-full pl-20 mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Jane Doe"
+          />
+          <button
+            class="absolute inset-y-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-l-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+          >
+            Click
+          </button>
+        </div>
+      </label>
+
+      <label class="block mt-4 text-sm">
+        <span class="text-gray-700 dark:text-gray-400"> Button right </span>
+        <div class="relative text-gray-500 focus-within:text-purple-600">
+          <input
+            class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
+            placeholder="Jane Doe"
+          />
+          <button
+            class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+          >
+            Click
+          </button>
+        </div>
+      </label>
+    </div> -->
+  </div>
+</main>
+{% endblock content %}
