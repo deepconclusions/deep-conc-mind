@@ -11,7 +11,7 @@ class Chat(models.Model):
         return self.user.username
     
 
-class Secrets(models.Model):
+class Secret(models.Model):
     name = models.CharField(max_length=100)
     secret = models.TextField()
     def __str__(self):

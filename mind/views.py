@@ -10,11 +10,12 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory import ConversationBufferMemory
 
 from .models import Chat
+from .models import Secret
 
 # Create your views here.
 
 def askOpenAI(message:str):
-    os.environ['OPENAI_API_KEY'] = "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"
+    os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
     llm = OpenAI()
     memory = ConversationBufferMemory() 
 
