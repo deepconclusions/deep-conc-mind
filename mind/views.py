@@ -14,7 +14,7 @@ from .models import Chat
 # Create your views here.
 
 def askOpenAI(message:str):
-    os.environ['OPENAI_API_KEY'] = "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"
+    os.environ['OPENAI_API_KEY'] = "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"
     llm = OpenAI()
     memory = ConversationBufferMemory() 
 
@@ -57,3 +57,9 @@ def mind(request):
         
     else:
         return redirect(to='accounts:signin')
+
+
+def deleteChat(request):
+    Chat.objects.filter(user=request.user).delete()
+    return redirect(request.META['HTTP_REFERER']) 
+    
