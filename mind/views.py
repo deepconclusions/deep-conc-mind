@@ -8,30 +8,37 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.memory import ConversationBufferMemory
+from langchain.chains.conversation.memory import ConversationBufferMemory
 
 from .models import Chat
 from .models import Secret
 
 # Create your views here.
 
+memory = ConversationBufferMemory()
 def askOpenAI(message:str):
     os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
-    llm = OpenAI()
-    memory = ConversationBufferMemory() 
+    llm = OpenAI(temperature=0)
+ 
+    prompt = PromptTemplate(input_variables=['history', 'input'], 
+                   template="""
+                   The following is a friendly conversation between a human and a Deep Conclucions Mind bot. 
+                   The bot is a mental health counsellor and the answer should be based on description of the patient.
+                   If the bot does not know the answer to a question, 
+                   it truthfully says it does not know.\n\nCurrent conversation:\n{history}\nHuman: {input}\nDeep Conclucions Mind bot:'),
+                    """)
+    # prompt = PromptTemplate(
+    # input_variables =['message'],
+    # output_variables =['response'],
+    # template = "Please respond kindly: {message}"
+    # )
 
-    # CoversationChain
-    # chat = ConversationChain(llm=llm)
-    # response = chat.run(message)
-
-    prompt = PromptTemplate(
-    input_variables =['message'],
-    template = "Please respond kindly: {message}"
-    )
     
-    chain = LLMChain(llm=llm, prompt=prompt, memory=memory)
-    response = chain.run(message)
+    chain = ConversationChain(llm=llm,prompt=prompt, memory=memory)
 
-    return response
+    response = chain({"input": message})
+
+    return response['response']
 
 
 def mind(request):
