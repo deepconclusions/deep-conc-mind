@@ -26,7 +26,8 @@ from django.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', view=views.dashbord, name='dashbord'),
-    path(route='accounts/', view=include('accounts.urls')),
+    path(route='users/', view=include('accounts.urls'), name='accounts'),
+    path(route='accounts/', view=include('allauth.urls')),
     path('mind/', include('mind.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()

@@ -56,4 +56,4 @@ def mind(request):
                            context=context)
         
     else:
-        return redirect('login')
+        return redirect(to='accounts:signin')

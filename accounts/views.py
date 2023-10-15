@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
 # from django.contrib.auth.forms import UserCreationForm
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserAuthenticationForm
+
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
@@ -12,7 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def signin(request):
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
+        form = CustomUserAuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request=request, user=user)
@@ -23,11 +24,11 @@ def signin(request):
         else:
             error = 'Please enter correct username and password. Click "Lets sign you up" if you dont have an account.'
             template_name = 'accounts/signin.html'
-            context = {'form': AuthenticationForm(), 'error': error}
+            context = {'form': CustomUserAuthenticationForm(), 'error': error}
             return render(request, template_name=template_name, context=context)
     else:
         template_name = 'accounts/signin.html'
-        context = {'form': AuthenticationForm()}
+        context = {'form': CustomUserAuthenticationForm()}
     return render(request, template_name=template_name, context=context)
 
 
