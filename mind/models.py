@@ -9,3 +9,10 @@ class Chat(models.Model):
     response = models.TextField()
     def __str__(self):
         return self.user.username
+    
+
+class Secrets(models.Model):
+    name = models.CharField(max_length=100)
+    secret = models.TextField()
+    def __str__(self):
+        return self.name
