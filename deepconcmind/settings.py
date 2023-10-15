@@ -33,6 +33,7 @@ SITE_ID = 1
 INSTALLED_APPS = [
     'mind',
     'accounts',
+    'blog',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
