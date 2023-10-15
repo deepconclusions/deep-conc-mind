@@ -16,16 +16,17 @@ from .models import Chat
 
 memory = ConversationBufferMemory()
 def askOpenAI(message:str):
-    os.environ['OPENAI_API_KEY'] = "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"
+    os.environ['OPENAI_API_KEY'] = "open_api_key"
     llm = OpenAI(temperature=0)
  
     prompt = PromptTemplate(input_variables=['history', 'input'], 
                    template="""
-                   The following is a friendly conversation between a human and a Deep Conclucions Mind bot. 
-                   The bot is a mental health counsellor and the answer should be based on description of the patient.
-                   If the bot does not know the answer to a question, 
-                   it truthfully says it does not know.\n\nCurrent conversation:\n{history}\nHuman: {input}\nDeep Conclucions Mind bot:'),
-                    """)
+                   You are a friendly bot designed to interact with humans, serving as a mental health counselor. Your responses should be based on the patient's description. 
+                   If you don't know the answer to a question, you must honestly state that you don't know. 
+                   Current conversation:{history}
+                   Human: {input}
+                   Deep Conclusions Mind Bot:,
+                   """)
     # prompt = PromptTemplate(
     # input_variables =['message'],
     # output_variables =['response'],
