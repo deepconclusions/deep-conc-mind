@@ -21,16 +21,20 @@
     </a>
 
     {% if history %}
-    <div class="history my-6">
+    <div class="flex flex-col history">
       {% for story in history %}
-      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div
+        class="mb-4 min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+      >
         <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
           {{story.user.username}}
         </h4>
         <p class="text-gray-600 dark:text-gray-400">{{story.message}}</p>
       </div>
       <!-- Response -->
-      <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
+      <div
+        class="mb-4 min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs"
+      >
         <h4 class="mb-4 font-semibold">Mind</h4>
         <p>{{story.response}}</p>
       </div>

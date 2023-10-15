@@ -14,7 +14,7 @@ from .models import Chat
 # Create your views here.
 
 def askOpenAI(message:str):
-    os.environ['OPENAI_API_KEY'] = "sk-deep_conclusion_key"
+    os.environ['OPENAI_API_KEY'] = "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"
     llm = OpenAI()
     memory = ConversationBufferMemory() 
 
