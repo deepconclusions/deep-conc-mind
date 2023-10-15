@@ -15,8 +15,10 @@ from .models import Secret
 
 # Create your views here.
 
-memory = ConversationBufferMemory()
-def askOpenAI(message:str):
+
+#memory = ConversationBufferMemory()
+memory_dict = {}
+def askOpenAI(message:str, memory):
     os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
     llm = OpenAI(temperature=0)
  
@@ -43,26 +45,22 @@ def askOpenAI(message:str):
 
 def mind(request):
     if request.user.is_authenticated:
+        user_id = str(request.user.id)
+        if user_id not in memory_dict:
+            memory_dict[user_id] = ConversationBufferMemory()
+
         if request.method == 'POST':
             message = request.POST.get('message')
             clean_message = str(message)
-            response = askOpenAI(clean_message)
-            
-            # save chat to database
+            response = askOpenAI(clean_message, memory_dict[user_id])
             chat = Chat(user=request.user, message=message, response=response)
             chat.save()
-
-
-            return redirect(request.META['HTTP_REFERER']) 
+            return redirect(request.META['HTTP_REFERER'])
         else:
-            # get all chats from database
             chats = Chat.objects.filter(user=request.user)
             context = {'history': chats}
             template_name = 'mind.html'
-            return render(request=request,
-                          template_name=template_name,
-                           context=context)
-        
+            return render(request=request, template_name=template_name, context=context)
     else:
         return redirect(to='accounts:signin')
 
