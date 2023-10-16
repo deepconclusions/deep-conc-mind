@@ -72,7 +72,7 @@ ROOT_URLCONF = 'deepconcmind.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['/home/dataidea/deep-conc-mind/templates','templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
