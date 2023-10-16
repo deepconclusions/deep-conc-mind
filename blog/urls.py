@@ -7,4 +7,5 @@ app_name = "blog"
 urlpatterns = [
     # path(route="/", view=include('allauth.urls')),
     path(route="blogs", view=views.blog, name="blogs"),
+    path(route="blog/<int:blog_id>", view=views.blogDetail, name="blog_detail"),
 ]

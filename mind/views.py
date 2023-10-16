@@ -7,8 +7,8 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
-from langchain.memory import ConversationBufferMemory
-from langchain.chains.conversation.memory import ConversationBufferMemory
+# from langchain.memory import ConversationBufferMemory
+# from langchain.chains.conversation.memory import ConversationBufferMemory
 # import django decorators
 from django.contrib.auth.decorators import login_required
 from .models import Chat
@@ -47,7 +47,7 @@ def askOpenAI(message:str, memory):
 def mind(request):
     user_id = str(request.user.id)
     if user_id not in memory_dict:
-        memory_dict[user_id] = ConversationBufferMemory()
+        memory_dict[user_id] = ConversationBufferWindowMemory()
 
     if request.method == 'POST':
         message = request.POST.get('message')
