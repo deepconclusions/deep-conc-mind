@@ -7,17 +7,19 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
-# from langchain.memory import ConversationBufferMemory
-# # from langchain.chains.conversation.memory import ConversationBufferMemory
-
+from langchain.memory import ConversationBufferMemory
+from langchain.chains.conversation.memory import ConversationBufferMemory
+# import django decorators
+from django.contrib.auth.decorators import login_required
 from .models import Chat
 from .models import Secret
 
 # Create your views here.
 
-memory = ConversationBufferWindowMemory()
 
-def askOpenAI(message:str):
+#memory = ConversationBufferMemory()
+memory_dict = {}
+def askOpenAI(message:str, memory):
     os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
     llm = OpenAI(temperature=0)
  
@@ -28,6 +30,11 @@ def askOpenAI(message:str):
                    If the bot does not know the answer to a question, 
                    it truthfully says it does not know.\n\nCurrent conversation:\n{history}\nHuman: {input}\nDeep Conclucions Mind bot:'),
                     """)
+    # prompt = PromptTemplate(
+    # input_variables =['message'],
+    # output_variables =['response'],
+    # template = "Please respond kindly: {message}"
+    # )
 
     
     chain = ConversationChain(llm=llm,prompt=prompt, memory=memory)
@@ -36,35 +43,26 @@ def askOpenAI(message:str):
 
     return response['response']
 
-
+@login_required(login_url='accounts:signin')
 def mind(request):
-    if request.user.is_authenticated:
-        chat = Chat.objects.filter(user=request.user)
-        if request.method == 'POST':
-            message = request.POST.get('message')
-            clean_message = str(message)
+    user_id = str(request.user.id)
+    if user_id not in memory_dict:
+        memory_dict[user_id] = ConversationBufferMemory()
 
-            response = askOpenAI(message=clean_message)
-            
-            # save chat to database
-            chat = Chat(user=request.user, human=message, mind_bot=response)
-            chat.save()
-
-
-            return redirect(request.META['HTTP_REFERER']) 
-        else:
-            # get all chats from database
-            context = {'history': chat}
-            template_name = 'mind/mind.html'
-            return render(request=request,
-                          template_name=template_name,
-                           context=context)
-        
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        clean_message = str(message)
+        response = askOpenAI(clean_message, memory_dict[user_id])
+        chat = Chat(user=request.user, human=message, mind_bot=response)
+        chat.save()
+        return redirect(request.META['HTTP_REFERER'])
     else:
-        return redirect(to='accounts:signin')
+        chats = Chat.objects.filter(user=request.user)
+        context = {'history': chats}
+        template_name = 'mind/mind.html'
+        return render(request=request, template_name=template_name, context=context)
 
 
 def deleteChat(request):
     Chat.objects.filter(user=request.user).delete()
     return redirect(request.META['HTTP_REFERER']) 
-    

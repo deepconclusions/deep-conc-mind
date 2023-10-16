@@ -27,6 +27,7 @@
         class="mb-4 min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
       >
         <h4 class="mb-4 font-semibold text-gray-600 dark:text-gray-300">
+          <i class="fa-solid fa-face-smile pr-2"></i>
           {{story.user.username}}
         </h4>
         <p class="text-gray-600 dark:text-gray-400">{{story.human}}</p>
@@ -35,14 +36,17 @@
       <div
         class="mb-4 min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs"
       >
-        <h4 class="mb-4 font-semibold">Mind</h4>
+        <h4 class="mb-4 font-semibold">
+          <i class="fa-solid fa-brain pr-2"></i>
+          Mind
+        </h4>
         <p>{{story.mind_bot}}</p>
       </div>
       {% endfor%}
     </div>
     {% else %}
     <div class="min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs">
-      <h4 class="mb-4 font-semibold">Mind</h4>
+      <h4 class="mb-4 font-semibold">Mind <i class="fa-solid fa-brain"></i></h4>
       <p>Hi {{request.user.username}} 👋, Let's Talk</p>
     </div>
     {% endif %}
