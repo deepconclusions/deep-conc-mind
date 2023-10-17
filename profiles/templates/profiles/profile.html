@@ -1,0 +1,74 @@
+<!-- Signin Page -->
+{% extends 'base.html' %}
+<!-- Page Title -->
+{% block title %}
+<title>Profile {{profile.name}}</title>
+{% endblock title%}
+<style></style>
+<!-- Page Content -->
+{% block content %}
+<main class="h-full pb-16 overflow-y-auto p-4">
+  <!-- Remove everything INSIDE this div to a really blank page -->
+  <div
+    class="p-y-2 relative min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+  >
+    <img
+      class="object-cover w-full h-32 rounded"
+      src="/media/{{profile.image}}"
+      alt=""
+      aria-hidden="true"
+    />
+    <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      {{profile.name}}
+    </h2>
+    <div class="flex">
+      <a href="tel:{{profile.phone}}" class="pr-2">
+        <button
+          class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        >
+          Free Inital Call
+        </button>
+      </a>
+      <a href="mailto:{{profile.email}}">
+        <button
+          class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+        >
+          Send an Email
+        </button>
+      </a>
+    </div>
+    <div class="text-gray-600 p-2 dark:text-gray-400">
+      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        Skills
+      </h2>
+      {% for skill in profile.skills.all %}
+      <ul>
+        <li>&rarr; {{skill}}</li>
+      </ul>
+      {% endfor %}
+    </div>
+    <div class="text-gray-600 p-2 dark:text-gray-400">
+      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        Qualifications
+      </h2>
+      {% for qualification in profile.qualifications.all %}
+      <ul>
+        <li>&rarr; {{qualification}}</li>
+      </ul>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+<script>
+  const h2s = document.querySelectorAll("h2");
+  h2s.forEach((element) => {
+    element.classList.add(
+      "my-6",
+      "text-2xl",
+      "font-semibold",
+      "text-gray-700",
+      "dark:text-gray-200"
+    );
+  });
+</script>
+{% endblock content %}

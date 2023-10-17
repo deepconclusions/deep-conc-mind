@@ -1,0 +1,59 @@
+<!-- Signin Page -->
+{% extends 'base.html' %}
+<!-- Page Title -->
+{% block title %}
+<title>Profile</title>
+{% endblock title%}
+<!-- Page Content -->
+{% block content %}
+<!-- Load Social Account -->
+{% load socialaccount %}
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container px-6 mx-auto grid">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      Mental Therapists, Counsellors and more.
+    </h2>
+    <!-- CTA -->
+    <a
+      class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
+      href=""
+    >
+      <div class="flex items-center text-center">
+        Frequently Asked Questions
+      </div>
+    </a>
+  </div>
+  <section class="profiles">
+    <div class="grid gap-6 mb-8 md:grid-cols-2">
+      {% if profiles %} {% for profile in profiles %}
+      <a href="{% url 'profile:profile_detail' profile.id %}" class="p-4">
+        <div
+          class="p-y-2 relative min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+        >
+          <img
+            class="object-cover w-full h-64 rounded"
+            src="/media/{{profile.image}}"
+            alt=""
+            aria-hidden="true"
+          />
+          <p class="text-gray-600 p-2 dark:text-gray-400">{{profile.bio}}</p>
+          <a
+            href="{% url 'profile:profile_detail' profile.id %}"
+            class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+          >
+            VIEW PROFILE
+          </a>
+        </div>
+      </a>
+      {% endfor %} {% else %}
+      <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+        <p class="text-gray-600 dark:text-gray-400">No profile found!</p>
+        <h4 class="font-bold text-gray-600 dark:text-gray-400">
+          {{profile.category}}
+        </h4>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock content %}

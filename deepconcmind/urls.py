@@ -30,6 +30,7 @@ urlpatterns = [
     path(route='accounts/', view=include('allauth.urls')),
     path('mind/', include('mind.urls')),
     path(route='blog/', view=include('blog.urls')),
+    path(route='profile/', view=include('profiles.urls')),
     ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
