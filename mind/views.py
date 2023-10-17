@@ -3,21 +3,14 @@ import os
 from django.shortcuts import render, redirect
 # # import langchain tools
 from langchain.llms import OpenAI
-from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
-# from langchain.memory import ConversationBufferMemory
-# from langchain.chains.conversation.memory import ConversationBufferMemory
-# import django decorators
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from .models import Chat
 from .models import Secret
 
-# Create your views here.
-
-
-#memory = ConversationBufferMemory()
+# Memory Dictionary
 memory_dict = {}
 def askOpenAI(message:str, memory):
     os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
@@ -62,7 +55,7 @@ def askOpenAI(message:str, memory):
 
     return response['response']
 
-@login_required(login_url='accounts:signin')
+# @login_required(login_url='accounts:signin')
 def mind(request):
     user_id = str(request.user.id)
     if user_id not in memory_dict:
