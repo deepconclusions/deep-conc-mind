@@ -6,7 +6,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferWindowMemory
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from .models import Chat
 from .models import Secret
 
@@ -55,7 +55,7 @@ def askOpenAI(message:str, memory):
 
     return response['response']
 
-# @login_required(login_url='accounts:signin')
+@login_required(login_url='accounts:signin')
 def mind(request):
     user_id = str(request.user.id)
     if user_id not in memory_dict:

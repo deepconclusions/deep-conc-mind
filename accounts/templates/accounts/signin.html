@@ -31,6 +31,15 @@
     >
       <form action="{% url 'accounts:signin' %}" method="post">
         {% csrf_token %}
+        <!-- Show Errors -->
+        {% if error %}
+        <div
+          class="error min-w-0 p-4 text-white bg-purple-600 rounded-lg shadow-xs"
+        >
+          <h4 class="mb-4 font-semibold">Error</h4>
+          <p>{{error}}</p>
+        </div>
+        {% endif %}
         <div class="mt-3">{{form}}</div>
         <div class="flex mt-1 justify-center">
           <button

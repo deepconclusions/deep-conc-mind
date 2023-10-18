@@ -22,7 +22,7 @@ def signin(request):
             else:
                 return redirect(to='/')
         else:
-            error = 'Please enter correct username and password. Click "Lets sign you up" if you dont have an account.'
+            error = 'Please enter correct username and password. Click "Create account" if you dont have an account.'
             template_name = 'accounts/signin.html'
             context = {'form': CustomUserAuthenticationForm(), 'error': error}
             return render(request, template_name=template_name, context=context)
