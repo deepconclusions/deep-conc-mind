@@ -31,6 +31,8 @@ urlpatterns = [
     path('mind/', include('mind.urls')),
     path(route='blog/', view=include('blog.urls')),
     path(route='profile/', view=include('profiles.urls')),
+    path(route='how-to', view=views.howToDashbord, name='how_to_dashbord'),
+    path(route='how-to-mind-ai', view=views.howToMindAi, name='how_to_mind_ai'),
     ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
