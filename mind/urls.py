@@ -9,6 +9,6 @@ from django.urls import include
 app_name = 'mind'
 
 urlpatterns = [
-    path('', view=views.mind, name='chat'),
+    path('chat/', view=views.mind, name='chat'),
     path(route='delete', view=views.deleteChat, name='delete'),
 ]

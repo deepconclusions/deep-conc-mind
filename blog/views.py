@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Blog
-import markdown
+# import markdown
 
 # Create your views here.
 def blog(request):

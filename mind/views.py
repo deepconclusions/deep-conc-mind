@@ -1,6 +1,8 @@
 import os
+import json
 # import django tools
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 # # import langchain tools
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -62,12 +64,13 @@ def mind(request):
         memory_dict[user_id] = ConversationBufferWindowMemory()
 
     if request.method == 'POST':
-        message = request.POST.get('message')
-        clean_message = str(message)
+        data = json.loads(request.body)
+        clean_message = str(data['message'])
         response = askOpenAI(clean_message, memory_dict[user_id])
-        chat = Chat(user=request.user, human=message, mind_bot=response)
+        print(response)
+        chat = Chat(user=request.user, human=clean_message, mind_bot=response)
         chat.save()
-        return redirect(request.META['HTTP_REFERER'])
+        return JsonResponse({"message": clean_message, "response": response})
     else:
         chats = Chat.objects.filter(user=request.user)
         context = {'history': chats}
