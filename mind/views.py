@@ -17,7 +17,7 @@ memory_dict = {}
 def askOpenAI(message:str, memory):
     os.environ['OPENAI_API_KEY'] = Secret.objects.get(name='openai_key').secret
     llm = OpenAI(temperature=0)
- 
+
     prompt = PromptTemplate(
     input_variables=['history', 'input'],
     template="""
@@ -40,7 +40,7 @@ def askOpenAI(message:str, memory):
     Current conversation:
     {history}
     Human: {input}
-    Deep Conclusions Mind bot:
+    Mind Bot:
     """,
     # System-specific guidelines
     rules={
@@ -50,7 +50,7 @@ def askOpenAI(message:str, memory):
     )
 
 
-    
+
     chain = ConversationChain(llm=llm,prompt=prompt, memory=memory)
 
     response = chain({"input": message})
@@ -80,4 +80,4 @@ def mind(request):
 
 def deleteChat(request):
     Chat.objects.filter(user=request.user).delete()
-    return redirect(request.META['HTTP_REFERER']) 
+    return redirect(request.META['HTTP_REFERER'])
